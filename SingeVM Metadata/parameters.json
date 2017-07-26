@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "southeastasia"
+        },
+        "virtualMachineName": {
+            "value": "az-meta1vm"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_DS1_v2"
+        },
+        "adminUsername": {
+            "value": "mike"
+        },
+        "virtualNetworkName": {
+            "value": "azmeta3-rg-vnet"
+        },
+        "networkInterfaceName": {
+            "value": "az-meta1vm628"
+        },
+        "networkSecurityGroupName": {
+            "value": "ssh-http-nsg"
+        },
+        "adminPublicKey": {
+            "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrAJg+Kdhe8/GFZywL3k+neYZ+qdNm3z8RYPbG12AoSB2qX2D9BgVqMIRTT2QeYqVCLxKulL84HlR0bZqGpuJjv5AH9v13c4nZwd6E4msbKKgftuysVEXQi2raML1dmpTvCSjsj9kNjzuhWL2KFIjIaDkAAnUXRNohmYre+K26jl6NRFEn+DjCLiFnaHGliJI6Lae1ECF1347hlszcqGPYyqSRtrYdFF5m/Eth1ql9U6uqHQ58Ghc05JtYjLDn5tHMFdYh8fWAP1QeMgGg1pEKzCkcVANJASB4TjiB9PSKBEqWHg+HM3tnxW8VHsjsp2+BQRgetMw0UoY9xth1+tSt"
+        },
+        "diagnosticsStorageAccountName": {
+            "value": "azmeta3rgdiag430"
+        },
+        "diagnosticsStorageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "diagnosticsStorageAccountId": {
+            "value": "Microsoft.Storage/storageAccounts/azmeta3rgdiag430"
+        },
+        "addressPrefix": {
+            "value": "10.1.0.0/24"
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "subnetPrefix": {
+            "value": "10.1.0.0/24"
+        },
+        "publicIpAddressName": {
+            "value": "az-meta1vm-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        }
+    }
+}
