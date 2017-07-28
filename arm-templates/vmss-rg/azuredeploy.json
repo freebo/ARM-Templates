@@ -1,0 +1,479 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachineScaleSets_MyVmss_name": {
+            "defaultValue": "MyVmss",
+            "type": "String"
+        },
+        "autoscalesettings_scale70_10_name": {
+            "defaultValue": "scale70-10",
+            "type": "String"
+        },
+        "loadBalancers_metalb_name": {
+            "defaultValue": "metalb",
+            "type": "String"
+        },
+        "loadBalancers_MyVmssLB_name": {
+            "defaultValue": "MyVmssLB",
+            "type": "String"
+        },
+        "publicIPAddresses_metalbPublicIP_name": {
+            "defaultValue": "metalbPublicIP",
+            "type": "String"
+        },
+        "publicIPAddresses_MyVmssLBPublicIP_name": {
+            "defaultValue": "MyVmssLBPublicIP",
+            "type": "String"
+        },
+        "virtualNetworks_MyVmssVNET_name": {
+            "defaultValue": "MyVmssVNET",
+            "type": "String"
+        },
+        "subnets_MyVmssSubnet_name": {
+            "defaultValue": "MyVmssVNET/MyVmssSubnet",
+            "type": "String"
+        },
+        "virtualMachineScaleSets_MyVmss_id": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/IMAGES-RG/providers/Microsoft.Compute/images/azmeta",
+            "type": "String"
+        },
+        "loadBalancers_metalb_id": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/vmss-rg/providers/Microsoft.Network/loadBalancers/metalb/frontendIPConfigurations/loadBalancerFrontEnd",
+            "type": "String"
+        },
+        "loadBalancers_metalb_id_1": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/vmss-rg/providers/Microsoft.Network/loadBalancers/metalb/backendAddressPools/metalbBEPool",
+            "type": "String"
+        },
+        "loadBalancers_metalb_id_2": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/vmss-rg/providers/Microsoft.Network/loadBalancers/metalb/probes/http-probe",
+            "type": "String"
+        },
+        "loadBalancers_metalb_id_3": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/vmss-rg/providers/Microsoft.Network/loadBalancers/metalb/frontendIPConfigurations/loadBalancerFrontEnd",
+            "type": "String"
+        },
+        "loadBalancers_metalb_id_4": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/vmss-rg/providers/Microsoft.Network/loadBalancers/metalb/frontendIPConfigurations/loadBalancerFrontEnd",
+            "type": "String"
+        },
+        "loadBalancers_metalb_id_5": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/vmss-rg/providers/Microsoft.Network/loadBalancers/metalb/frontendIPConfigurations/loadBalancerFrontEnd",
+            "type": "String"
+        },
+        "loadBalancers_MyVmssLB_id": {
+            "defaultValue": "/subscriptions/f32027f3-4939-4286-8da7-6aa9a8cd5258/resourceGroups/vmss-rg/providers/Microsoft.Network/loadBalancers/MyVmssLB/frontendIPConfigurations/loadBalancerFrontEnd",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "sku": {
+                "name": "Standard_D1_v2",
+                "tier": "Standard",
+                "capacity": 2
+            },
+            "name": "[parameters('virtualMachineScaleSets_MyVmss_name')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "singlePlacementGroup": true,
+                "upgradePolicy": {
+                    "mode": "Manual"
+                },
+                "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "myvmsfeb1",
+                        "adminUsername": "mike",
+                        "linuxConfiguration": {
+                            "disablePasswordAuthentication": true,
+                            "ssh": {
+                                "publicKeys": [
+                                    {
+                                        "path": "/home/mike/.ssh/authorized_keys",
+                                        "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYleQaJnsSakXK5YxkHlNNRBrQZAS0Ea5imZG1Te1S227sdTy8jRy2Si5AEflnzkEVT+ygKEcoAVXQIcjWqKrnfQ3O9h7cIkyrvVd6l+l+9IBCjWDuLegto2IP8Mt7vUCGZnG+iysJB0GRPrxfZw8NPx+Oel/ZAUJLTvzfwFgJwl6JMPnBsN9NOShcQEo9w3osqn7qYsUas8/uZVOOjVWsY9JSCc07qD6lo3rXsa7Mmsw9b6r+uExnkudFIdgq81CfhGzC8LfexjFo06aovZLjqhY6il1zlO5kHlSrek43R/yGKtpLmmFkaTyNvEKq7yuow1ouphCx7rvwOrmCSWjz"
+                                    }
+                                ]
+                            }
+                        },
+                        "secrets": []
+                    },
+                    "storageProfile": {
+                        "osDisk": {
+                            "createOption": "FromImage",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Standard_LRS"
+                            }
+                        },
+                        "imageReference": {
+                            "id": "[parameters('virtualMachineScaleSets_MyVmss_id')]"
+                        }
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "myvmsfeb1Nic",
+                                "properties": {
+                                    "primary": true,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "myvmsfeb1IPConfig",
+                                            "properties": {
+                                                "subnet": {
+                                                    "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('subnets_MyVmssSubnet_name'))]"
+                                                },
+                                                "loadBalancerBackendAddressPools": [
+                                                    {
+                                                        "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_metalb_name')), '/backendAddressPools/metalbBEPool')]"
+                                                    }
+                                                ],
+                                                "loadBalancerInboundNatPools": [
+                                                    {
+                                                        "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_metalb_name')), '/inboundNatPools/metalbNatPool')]"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "overprovision": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('subnets_MyVmssSubnet_name'))]",
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_metalb_name'))]"
+            ]
+        },
+        {
+            "type": "microsoft.insights/autoscalesettings",
+            "name": "[parameters('autoscalesettings_scale70_10_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "profiles": [
+                    {
+                        "name": "Auto created scale condition",
+                        "capacity": {
+                            "minimum": "2",
+                            "maximum": "4",
+                            "default": "2"
+                        },
+                        "rules": [
+                            {
+                                "metricTrigger": {
+                                    "metricName": "Percentage CPU",
+                                    "metricNamespace": "",
+                                    "metricResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_MyVmss_name'))]",
+                                    "timeGrain": "PT1M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT5M",
+                                    "timeAggregation": "Average",
+                                    "operator": "GreaterThan",
+                                    "threshold": 70
+                                },
+                                "scaleAction": {
+                                    "direction": "Increase",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            },
+                            {
+                                "metricTrigger": {
+                                    "metricName": "Percentage CPU",
+                                    "metricNamespace": "",
+                                    "metricResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_MyVmss_name'))]",
+                                    "timeGrain": "PT1M",
+                                    "statistic": "Average",
+                                    "timeWindow": "PT5M",
+                                    "timeAggregation": "Average",
+                                    "operator": "LessThan",
+                                    "threshold": 10
+                                },
+                                "scaleAction": {
+                                    "direction": "Decrease",
+                                    "type": "ChangeCount",
+                                    "value": "1",
+                                    "cooldown": "PT5M"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "enabled": true,
+                "name": "[parameters('autoscalesettings_scale70_10_name')]",
+                "targetResourceUri": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_MyVmss_name'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_MyVmss_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers",
+            "name": "[parameters('loadBalancers_metalb_name')]",
+            "apiVersion": "2017-06-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "aedc9a6f-af03-4b41-b627-9901a8c8286f",
+                "frontendIPConfigurations": [
+                    {
+                        "name": "loadBalancerFrontEnd",
+                        "etag": "W/\"bb058023-b7c8-4eef-b3f6-f4d09620bf0f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_metalbPublicIP_name'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "[concat(parameters('loadBalancers_metalb_name'),'BEPool')]",
+                        "etag": "W/\"bb058023-b7c8-4eef-b3f6-f4d09620bf0f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded"
+                        }
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "lbrule80",
+                        "etag": "W/\"bb058023-b7c8-4eef-b3f6-f4d09620bf0f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_metalb_id')]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "Default",
+                            "backendAddressPool": {
+                                "id": "[parameters('loadBalancers_metalb_id_1')]"
+                            },
+                            "probe": {
+                                "id": "[parameters('loadBalancers_metalb_id_2')]"
+                            }
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "http-probe",
+                        "etag": "W/\"bb058023-b7c8-4eef-b3f6-f4d09620bf0f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "protocol": "Http",
+                            "port": 80,
+                            "requestPath": "/",
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ],
+                "inboundNatRules": [
+                    {
+                        "name": "[concat(parameters('loadBalancers_metalb_name'),'NatPool.1')]",
+                        "etag": "W/\"bb058023-b7c8-4eef-b3f6-f4d09620bf0f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_metalb_id_3')]"
+                            },
+                            "frontendPort": 50001,
+                            "backendPort": 22,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp"
+                        }
+                    },
+                    {
+                        "name": "[concat(parameters('loadBalancers_metalb_name'),'NatPool.2')]",
+                        "etag": "W/\"bb058023-b7c8-4eef-b3f6-f4d09620bf0f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_metalb_id_4')]"
+                            },
+                            "frontendPort": 50002,
+                            "backendPort": 22,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp"
+                        }
+                    }
+                ],
+                "outboundNatRules": [],
+                "inboundNatPools": [
+                    {
+                        "name": "[concat(parameters('loadBalancers_metalb_name'),'NatPool')]",
+                        "etag": "W/\"bb058023-b7c8-4eef-b3f6-f4d09620bf0f\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "frontendPortRangeStart": 50000,
+                            "frontendPortRangeEnd": 50119,
+                            "backendPort": 22,
+                            "protocol": "Tcp",
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_metalb_id_5')]"
+                            }
+                        }
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_metalbPublicIP_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers",
+            "name": "[parameters('loadBalancers_MyVmssLB_name')]",
+            "apiVersion": "2017-06-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "150901e0-8ebf-4e97-b6cf-0c9a524dcae7",
+                "frontendIPConfigurations": [
+                    {
+                        "name": "loadBalancerFrontEnd",
+                        "etag": "W/\"bab458eb-ca4f-4b1a-aa21-12e0a668c6f9\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_MyVmssLBPublicIP_name'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "[concat(parameters('loadBalancers_MyVmssLB_name'),'BEPool')]",
+                        "etag": "W/\"bab458eb-ca4f-4b1a-aa21-12e0a668c6f9\"",
+                        "properties": {
+                            "provisioningState": "Succeeded"
+                        }
+                    }
+                ],
+                "loadBalancingRules": [],
+                "probes": [],
+                "inboundNatRules": [],
+                "outboundNatRules": [],
+                "inboundNatPools": [
+                    {
+                        "name": "[concat(parameters('loadBalancers_MyVmssLB_name'),'NatPool')]",
+                        "etag": "W/\"bab458eb-ca4f-4b1a-aa21-12e0a668c6f9\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "frontendPortRangeStart": 50000,
+                            "frontendPortRangeEnd": 50119,
+                            "backendPort": 22,
+                            "protocol": "Tcp",
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_MyVmssLB_id')]"
+                            }
+                        }
+                    }
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_MyVmssLBPublicIP_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_metalbPublicIP_name')]",
+            "apiVersion": "2017-06-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "da182563-4ccb-46ae-ab7d-b6e7c3dfaa02",
+                "ipAddress": "52.187.21.215",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_MyVmssLBPublicIP_name')]",
+            "apiVersion": "2017-06-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "7e62e49b-3171-443e-8d10-16cc0c5ab55f",
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_MyVmssVNET_name')]",
+            "apiVersion": "2017-06-01",
+            "location": "southeastasia",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "resourceGuid": "7dfb2c7f-f5f8-4c96-b8d8-b945ea7bf608",
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "MyVmssSubnet",
+                        "etag": "W/\"8b03caed-a02c-46cf-b13f-b601d7cf6730\"",
+                        "properties": {
+                            "provisioningState": "Succeeded",
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    }
+                ],
+                "virtualNetworkPeerings": []
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "name": "[parameters('subnets_MyVmssSubnet_name')]",
+            "apiVersion": "2017-06-01",
+            "scale": null,
+            "properties": {
+                "provisioningState": "Succeeded",
+                "addressPrefix": "10.0.0.0/24"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_MyVmssVNET_name'))]"
+            ]
+        }
+    ]
+}
