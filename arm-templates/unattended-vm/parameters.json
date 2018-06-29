@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "australiaeast"
+        },
+        "virtualMachineName": {
+            "value": "test-Vm"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B1s"
+        },
+        "adminUsername": {
+            "value": "testuser"
+        },
+        "virtualNetworkName": {
+            "value": "test-Rg-vnet"
+        },
+        "networkInterfaceName": {
+            "value": "test-vm409"
+        },
+        "networkSecurityGroupName": {
+            "value": "ssh-http-nsg"
+        },
+        "adminPassword": {
+            "value": "Demo@pass123"
+        },
+        "diagnosticsStorageAccountName": {
+            "value": "testrgdiag153"
+        },
+        "diagnosticsStorageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "diagnosticsStorageAccountId": {
+            "value": "Microsoft.Storage/storageAccounts/testrgdiag153"
+        },
+        "addressPrefix": {
+            "value": "10.1.1.0/24"
+        },
+        "subnetName": {
+            "value": "default"
+        },
+        "subnetPrefix": {
+            "value": "10.1.1.0/24"
+        },
+        "publicIpAddressName": {
+            "value": "test-Vm-ip"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        },
+        "publicIpAddressSku": {
+            "value": "Basic"
+        }
+    }
+}
